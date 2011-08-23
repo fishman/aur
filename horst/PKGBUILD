@@ -3,7 +3,7 @@
 pkgname=horst
 pkgver=3.0
 pkgrel=1
-pkgdesc="lightweight IEEE802.11 wireless LAN analyzer, mainly targeted at debugging wireless LANs with a focus on ad-hoc (IBSS) mode"
+pkgdesc="lightweight IEEE802.11 wireless LAN analyzer/scanner, mainly targeted at debugging wireless LANs with a focus on ad-hoc (IBSS) mode"
 arch=('i686' 'x86_64')
 url="http://br1.einfach.org/tech/horst/"
 license=('GPL')
@@ -11,6 +11,7 @@ depends=('ncurses')
 makedepends=()
 optdepends=()
 options=()
+install=('horst.install')
 source=("http://br1.einfach.org/horst_dl/${pkgname}-${pkgver}.tar.gz")
 md5sums=('076d836733fb6ce53a590eddf92ad358')
 
@@ -27,10 +28,11 @@ package() {
     mkdir -p ${pkgdir}/usr/share/horst/doc
 
     install -D -m 644 README "${pkgdir}/usr/share/horst/README"
-    install -D -m 644 ChangeLog "${pkgdir}/usr/share/horst/README"
-    install -D -m 644 LICENSE "${pkgdir}/usr/share/horst/README"
-    install -D -m 644 TODO "${pkgdir}/usr/share/horst/README"
+    install -D -m 644 ChangeLog "${pkgdir}/usr/share/horst/CHANGELOG"
+    install -D -m 644 LICENSE "${pkgdir}/usr/share/horst/LICENSE"
+    install -D -m 644 TODO "${pkgdir}/usr/share/horst/TODO"
+    install -D -m 644 horst.sh "${pkgdir}/usr/share/horst/horst.sh"
 
-    install -o "root" -g "root" -m 755 horst "${pkgdir}/usr/bin/"
+    install -o "root" -g "horst" -m 754 horst "${pkgdir}/usr/bin/"
 }
 
