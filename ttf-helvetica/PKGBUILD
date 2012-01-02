@@ -1,0 +1,15 @@
+pkgname=ttf-helvetica
+pkgver=1.0
+pkgrel=1
+depends=('fontconfig' 'xorg-font-utils')
+pkgdesc="helvetica"
+arch=('any')
+source=(http://reza.jelveh.me/assets/$pkgname.tar.bz2)
+install=$pkgname.install
+md5sums=('d77746fb296806a87feca8a4c9909207')
+
+build()
+{
+	mkdir -p $pkgdir/usr/share/fonts/TTF
+	cp $srcdir/$pkgname/*.ttf $pkgdir/usr/share/fonts/TTF
+}
