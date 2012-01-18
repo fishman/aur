@@ -3,7 +3,7 @@
 _pkgbasename=alsaequal
 pkgname=lib32-${_pkgbasename}
 pkgver=0.6
-pkgrel=3
+pkgrel=4
 pkgdesc="A real-time adjustable equalizer plugin for ALSA sound server."
 arch=(x86_64)
 url="http://www.thedigitalmachine.net/alsaequal.html"
