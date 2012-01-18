@@ -3,7 +3,7 @@
 pkgname=purple-otr
 pkgver=20120102
 pkgrel=1
-pkgdesc='Off-the-Record Messaging plugin for Pidgin.'
+pkgdesc='Off-the-Record Messaging plugin for Pidgin and Finch.'
 arch=('i686' 'x86_64')
 license=('GPL')
 url='http://www.cypherpunks.ca/otr/'

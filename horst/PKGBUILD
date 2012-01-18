@@ -11,7 +11,7 @@ depends=('ncurses')
 makedepends=()
 optdepends=()
 options=()
-install=('horst.install')
+install='horst.install'
 source=("http://br1.einfach.org/horst_dl/${pkgname}-${pkgver}.tar.gz")
 md5sums=('076d836733fb6ce53a590eddf92ad358')
 
