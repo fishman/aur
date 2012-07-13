@@ -1,0 +1,22 @@
+_pkgname=fogger
+pkgname=python2-fogger
+pkgver=12.07.9
+pkgrel=1
+pkgdesc="Site Specific Browser"
+arch=('any')
+url="https://launchpad.net/fogger"
+license=('GPL')
+depends=('quickly')
+makedepends=('python2-distutils-extra' 
+'python2-distribute')
+source=("https://launchpad.net/fogger/trunk/$pkgver/+download/${_pkgname}_$pkgver.tar.gz")
+md5sums=('0b07cc312aa6932141621c19ea5075de')
+build() {
+	cd "$srcdir/$_pkgname"
+	python2 setup.py build
+}
+
+package() {
+	cd "$srcdir/$_pkgname"
+	python2 setup.py install --root=$pkgdir/ --optimize=1
+}
