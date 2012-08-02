@@ -2,7 +2,7 @@
 
 pkgname=horst
 pkgver=3.0
-pkgrel=2
+pkgrel=3
 pkgdesc="lightweight IEEE802.11 wireless LAN analyzer/scanner, mainly targeted at debugging wireless LANs with a focus on ad-hoc (IBSS) mode"
 arch=('i686' 'x86_64')
 url="http://br1.einfach.org/tech/horst/"
