@@ -1,0 +1,183 @@
+diff --git a/Makefile.am b/Makefile.am
+index 93a2e09..8a9890e 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -1,4 +1,4 @@
+-AM_CFLAGS= @LIBGCRYPT_CFLAGS@ @LIBOTR_CFLAGS@ @EXTRA_CFLAGS@
++AM_CFLAGS= @LIBGCRYPT_CFLAGS@ @LIBOTR3_CFLAGS@ @EXTRA_CFLAGS@
+ AM_CFLAGS+=    -DPURPLE_PLUGINS \
+        -DPIDGIN_OTR_VERSION=\"@VERSION@\" \
+        -DLOCALEDIR=\"$(datadir)/locale\"
+@@ -11,7 +11,7 @@ plugin_LTLIBRARIES=   purple-otr.la
+ 
+ purple_otr_la_SOURCES= otr-plugin.c ui.c dialogs.c purple-ui.c purple-dialog.c
+ purple_otr_la_LDFLAGS= -module -avoid-version
+-purple_otr_la_LDFLAGS+=    @LIBGCRYPT_LIBS@ @LIBOTR_LIBS@
++purple_otr_la_LDFLAGS+=    @LIBGCRYPT_LIBS@ @LIBOTR3_LIBS@
+ 
+ EXTRA_DIST=        dialogs.h gtk-dialog.h gtk-ui.h otr-plugin.h ui.h \
+            otr-icons.h tooltipmenu.h purple-dialog.h purple-ui.h \
+diff --git a/configure.ac b/configure.ac
+index 30b378d..48532c7 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,9 +2,9 @@ dnl Process this file with autoconf to produce configure.
+ 
+ AC_INIT(purple-otr, 3.2.1)
+ 
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS(config.h)
+ 
+-AM_INIT_AUTOMAKE([-Wall -Werror])
++AM_INIT_AUTOMAKE([-Wall])
+ 
+ AC_PROG_CC
+ 
+@@ -14,7 +14,7 @@ AM_PROG_LIBTOOL
+ 
+ AM_PATH_LIBGCRYPT(1:1.2.0,,AC_MSG_ERROR(libgcrypt 1.2.0 or newer is required.))
+ 
+-AM_PATH_LIBOTR(3.2.0,,AC_MSG_ERROR(libotr 3.2.0 or newer is required.))
++AM_PATH_LIBOTR3(3.2.0,,AC_MSG_ERROR(libotr3 3.2.0 or newer is required.))
+ 
+ PKG_CHECK_MODULES([EXTRA], [glib-2.0 >= 2.6 gtk+-2.0 >= 2.6 pidgin >= 2.10 purple >= 2.0])
+ 
+diff --git a/dialogs.c b/dialogs.c
+index ca71078..7483627 100644
+--- a/dialogs.c
++++ b/dialogs.c
+@@ -29,8 +29,8 @@
+ #include "notify.h"
+ 
+ /* libotr headers */
+-#include <libotr/proto.h>
+-#include <libotr/message.h>
++#include <libotr3/proto.h>
++#include <libotr3/message.h>
+ 
+ /* pidgin-otr headers */
+ #include "dialogs.h"
+diff --git a/dialogs.h b/dialogs.h
+index 0a70b54..b2a0421 100644
+--- a/dialogs.h
++++ b/dialogs.h
+@@ -25,8 +25,8 @@
+ #include "notify.h"
+ 
+ /* libotr headers */
+-#include <libotr/proto.h>
+-#include <libotr/message.h>
++#include <libotr3/proto.h>
++#include <libotr3/message.h>
+ 
+ /* The various help URLs */
+ #define BASE_HELPURL "http://otr-help.cypherpunks.ca/" PIDGIN_OTR_VERSION "/"
+diff --git a/otr-plugin.c b/otr-plugin.c
+index bf5be43..14000e0 100644
+--- a/otr-plugin.c
++++ b/otr-plugin.c
+@@ -57,11 +57,11 @@
+ #endif /* ENABLE_NLS */
+ 
+ /* libotr headers */
+-#include <libotr/privkey.h>
+-#include <libotr/proto.h>
+-#include <libotr/tlv.h>
+-#include <libotr/message.h>
+-#include <libotr/userstate.h>
++#include <libotr3/privkey.h>
++#include <libotr3/proto.h>
++#include <libotr3/tlv.h>
++#include <libotr3/message.h>
++#include <libotr3/userstate.h>
+ 
+ /* purple-otr headers */
+ #include "ui.h"
+diff --git a/otr-plugin.h b/otr-plugin.h
+index 533f462..9827c48 100644
+--- a/otr-plugin.h
++++ b/otr-plugin.h
+@@ -26,8 +26,8 @@
+ #include "plugin.h"
+ 
+ /* libotr headers */
+-#include <libotr/context.h>
+-#include <libotr/userstate.h>
++#include <libotr3/context.h>
++#include <libotr3/userstate.h>
+ 
+ #define PRIVKEYFNAME "otr.private_key"
+ #define STOREFNAME "otr.fingerprints"
+diff --git a/purple-dialog.c b/purple-dialog.c
+index d388d99..cc45598 100644
+--- a/purple-dialog.c
++++ b/purple-dialog.c
+@@ -11,7 +11,7 @@
+  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  *  GNU General Public License for more details.
+  *
+- *  You should have received a copy of the GNU General Public License
++3 *  You should have received a copy of the GNU General Public License
+  *  along with this program; if not, write to the Free Software
+  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+@@ -42,11 +42,11 @@
+ #endif
+ 
+ /* libotr headers */
+-#include <libotr/dh.h>
+-#include <libotr/privkey.h>
+-#include <libotr/proto.h>
+-#include <libotr/message.h>
+-#include <libotr/userstate.h>
++#include <libotr3/dh.h>
++#include <libotr3/privkey.h>
++#include <libotr3/proto.h>
++#include <libotr3/message.h>
++#include <libotr3/userstate.h>
+ 
+ /* purple-otr headers */
+ #include "otr-plugin.h"
+diff --git a/purple-ui.c b/purple-ui.c
+index 93a4ffd..ca864a6 100644
+--- a/purple-ui.c
++++ b/purple-ui.c
+@@ -25,7 +25,7 @@
+ #include <gcrypt.h>
+ 
+ /* libotr headers */
+-#include <libotr/privkey.h>
++#include <libotr3/privkey.h>
+ 
+ /* purple headers */
+ #include "util.h"
+diff --git a/ui.c b/ui.c
+index 5ee5a58..d7ea6ae 100644
+--- a/ui.c
++++ b/ui.c
+@@ -36,9 +36,9 @@
+ #endif
+ 
+ /* libotr headers */
+-#include <libotr/privkey.h>
+-#include <libotr/proto.h>
+-#include <libotr/message.h>
++#include <libotr3/privkey.h>
++#include <libotr3/proto.h>
++#include <libotr3/message.h>
+ 
+ /* purple-otr headers */
+ #include "ui.h"
+diff --git a/ui.h b/ui.h
+index 328a6ac..85e1cd8 100644
+--- a/ui.h
++++ b/ui.h
+@@ -21,7 +21,7 @@
+ #ifndef __OTRG_UI_H__
+ #define __OTRG_UI_H__
+ 
+-#include <libotr/context.h>
++#include <libotr3/context.h>
+ 
+ /* Global and per-buddy preferences */
+ typedef struct {

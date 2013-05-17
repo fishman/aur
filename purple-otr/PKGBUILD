@@ -1,29 +1,36 @@
 # Maintainer: Reza Jelveh
+# libotr3 patch by queueRAM
 
 pkgname=purple-otr
-pkgver=20120802
-pkgrel=1
+pkgver=20120102
+pkgrel=2
 pkgdesc='Off-the-Record Messaging plugin for Pidgin and Finch.'
 arch=('i686' 'x86_64')
 license=('GPL')
 url='http://www.cypherpunks.ca/otr/'
-depends=('libotr>=3.2.0' 'pidgin' 'perlxml' 'git')
-makedepends=('automake-1.11')
+depends=('libotr3>=3.2.0' 'libpurple' 'perlxml')
+makedepends=('automake' 'git' 'intltool')
+source=(purple-otr-libotr3.patch)
+md5sums=('4182e3648fcd3e37af2830a0acc6d170')
 _gitroot="git://gitorious.org/purple-otr/purple-otr.git"
 _gitname="purple-otr"
 
 # PKGBUILD functions
 build() {
-    cd "$srcdir"
+    cd "${srcdir}"
     msg2 "Connecting to github.com GIT server...."
-    if [ -d "$srcdir/$_gitname" ] ; then
+    if [ -d "${srcdir}/${_gitname}" ] ; then
         cd "$_gitname" && git pull origin || return 1
         msg2 "The local files are updated."
     else
-        git clone "$_gitroot" || return 1
-        cd "$_gitname"
+        git clone "${_gitroot}" || return 1
+        cd "${_gitname}"
     fi
 
+    patch -p1 < ${srcdir}/purple-otr-libotr3.patch
+
+    aclocal
+    autoconf
     ./configure --prefix=/usr
     make
 }
